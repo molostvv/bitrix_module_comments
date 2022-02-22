@@ -7,7 +7,7 @@ Loc::loadMessages(__FILE__);
 Class dms_comments extends CModule
 {
 
-    var $MODULE_ID = "dms.comments";
+    var $MODULE_ID = "vspace.comments";
     var $MODULE_VERSION;
     var $MODULE_VERSION_DATE;
     var $MODULE_NAME;

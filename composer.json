@@ -3,6 +3,7 @@
     "description": "Модуль создания комментариев на сайте с авторизацией через HybridAuth",
     "type": "bitrix-d7-module",
     "require": {
+        "hybridauth/hybridauth" : "~3.0"
     },
     "minimum-stability": "dev",
     "authors": [
