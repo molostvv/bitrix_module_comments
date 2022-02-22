@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS `a_comments_messages` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USER_ID` int(11) NOT NULL,
+  `ITEM_ID` int(11) NOT NULL,
+  `DATE_CREATE` datetime NOT NULL,
+  `MESSAGE` text NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `a_comments_users` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `FIRSTNAME` varchar(50) NOT NULL,
+  `LASTNAME` varchar(50) NOT NULL,
+  `EMAIL` varchar(50) NOT NULL,
+  `PHOTO` int(11) NOT NULL,
+  `SOCIAL_ID` int(11) NOT NULL,
+  `SOCIAL_TYPE` varchar(50) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
