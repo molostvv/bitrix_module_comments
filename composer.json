@@ -1,0 +1,14 @@
+{
+    "name": "molostvov/vspace.comments",
+    "description": "Модуль создания комментариев на сайте с авторизацией через HybridAuth",
+    "type": "bitrix-d7-module",
+    "require": {
+    },
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Valeriy Molostvov",
+            "email": "molostvv@mail.ru"
+        }
+    ]
+}
