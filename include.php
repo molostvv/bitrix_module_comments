@@ -1,13 +1,22 @@
 <?
 use Bitrix\Main\Loader;
 
-include 'lib/Hybridauth/autoload.php';
+const VSPACE_COMMENTS_MODULE_ID = 'vspace.comments';
 
-Loader::registerAutoLoadClasses('vspace.comments', array(
-	'Demis\Comments\GeneralDataProvider' => 'lib/DataProviders/GeneralDataProvider.php',
-	'Demis\Comments\SocialAuth' => 'lib/SocialAuth.php',
-	'Demis\Comments\CommentsFactory' => 'lib/CommentsFactory.php',
-    'Demis\Comments\CommentsManager' => 'lib/CommentsManager.php',
-));
+try{
+	if(class_exists('Hybridauth\Hybridauth')){
+		Loader::registerAutoLoadClasses(VSPACE_COMMENTS_MODULE_ID, array(
+			'Vspace\Comments\DataProvider\GeneralDataProvider' => 'lib/DataProviders/GeneralDataProvider.php',
+			'Vspace\Comments\SocialAuth' 		 			   => 'lib/SocialAuth.php',
+			'Vspace\Comments\CommentsFactory'	 			   => 'lib/CommentsFactory.php',
+		    'Vspace\Comments\CommentsManager'				   => 'lib/CommentsManager.php',
+		));
+	} else {
+		throw new \Exception('Не подключена библиотека Hybridauth необходимая для работы модуля ' . VSPACE_COMMENTS_MODULE_ID);
+	}
+} catch (\Exception $ex) {
+    echo $ex->getMessage();
+    exit;
+}
 
 ?>

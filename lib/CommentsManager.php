@@ -3,7 +3,8 @@
  * Менеджер комментариев, реализует основные сценарии работы с модулем
  */
 
-namespace Demis\Comments;
+namespace Vspace\Comments;
+use Vspace\Comments\DataProviders\GeneralDataProvider;
 
 class CommentsManager{
 	

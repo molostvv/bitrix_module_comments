@@ -4,7 +4,7 @@ use Bitrix\Main\Application;
 
 Loc::loadMessages(__FILE__);
 
-Class dms_comments extends CModule
+Class Vspace_comments extends CModule
 {
 
     var $MODULE_ID = "vspace.comments";

@@ -1,7 +1,5 @@
 <?
-namespace Demis\Comments;
-
-use Demis\Comments\DataProviders\UsersTable;
+namespace Vspace\Comments\DataProviders;
 
 require_once __DIR__ . "/UsersTable.php";
 

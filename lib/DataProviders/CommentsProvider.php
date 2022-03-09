@@ -1,7 +1,6 @@
 <?
-namespace Demis\Comments;
+namespace Vspace\Comments\DataProviders;
 
-use Demis\Comments\DataProviders\MessagesTable;
 use Bitrix\Main\Type;
 
 require_once __DIR__ . "/MessagesTable.php";

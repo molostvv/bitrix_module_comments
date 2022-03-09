@@ -3,7 +3,8 @@
  * Фабрика объектов для комментариев
  */
 
-namespace Demis\Comments;
+namespace Vspace\Comments;
+use Vspace\Comments\DataProviders\GeneralDataProvider;
 
 class CommentsFactory{
 

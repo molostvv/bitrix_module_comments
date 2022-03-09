@@ -1,5 +1,5 @@
 <?php
-namespace Demis\Comments\DataProviders;
+namespace Vspace\Comments\DataProviders;
 
 use Bitrix\Main,
 	Bitrix\Main\Localization\Loc;

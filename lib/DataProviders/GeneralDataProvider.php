@@ -2,7 +2,7 @@
 /**
  * Основной класс провайдера данных
  */
-namespace Demis\Comments;
+namespace Vspace\Comments\DataProviders;
 
 require_once __DIR__ . "/CommentsProvider.php";
 require_once __DIR__ . "/UsersProvider.php";

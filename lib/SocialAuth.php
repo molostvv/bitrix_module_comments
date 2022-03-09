@@ -1,5 +1,5 @@
 <?
-namespace Demis\Comments;
+namespace Vspace\Comments;
 
 use Hybridauth\Hybridauth;
 use Hybridauth\Provider\Vkontakte;
@@ -15,29 +15,29 @@ class SocialAuth{
         $options = [];
 
         $options['twitter'] = [
-            'id'        => \COption::GetOptionString('dms.comments', 'twitter_id'),
-            'secret'    => \COption::GetOptionString('dms.comments', 'twitter_secret'),
+            'id'        => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'twitter_id'),
+            'secret'    => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'twitter_secret'),
             'icon'      => 'icon-twitter-alt'
         ];
 
         $options['facebook'] = [
-            'id'        => \COption::GetOptionString('dms.comments', 'facebook_id'),
-            'secret'    => \COption::GetOptionString('dms.comments', 'facebook_secret'),
+            'id'        => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'facebook_id'),
+            'secret'    => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'facebook_secret'),
             'icon'      => 'icon-facebook'
         ];
 
         $options['instagram'] = [
-            'id'        => \COption::GetOptionString('dms.comments', 'instagram_id'),
-            'secret'    => \COption::GetOptionString('dms.comments', 'instagram_secret'),
+            'id'        => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'instagram_id'),
+            'secret'    => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'instagram_secret'),
             'icon'      => 'icon-instagram'
         ];
 
         $options['vk'] = [
-            'id'        => \COption::GetOptionString('dms.comments', 'vk_id'),
-            'secret'    => \COption::GetOptionString('dms.comments', 'vk_secret'),
+            'id'        => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'vk_id'),
+            'secret'    => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'vk_secret'),
             'icon'      => 'icon-vk2'
         ];
-
+        
         return $options;
     }
 

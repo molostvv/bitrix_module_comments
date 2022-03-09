@@ -3,7 +3,7 @@
  * Класс, отвечающий за выполнение операций сервиса
  */
 
-namespace Demis\Comments;
+namespace Vspace\Comments;
 
 use Hybridauth\Hybridauth;
 use Hybridauth\Provider\Vkontakte;
