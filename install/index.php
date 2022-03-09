@@ -13,6 +13,7 @@ Class Vspace_comments extends CModule
     var $MODULE_NAME;
     var $MODULE_DESCRIPTION;
     var $MODULE_CSS;
+    var $MODULE_FOLDER = "local";
 
 	public function __construct()
     {
@@ -22,37 +23,38 @@ Class Vspace_comments extends CModule
         $path = substr($path, 0, strlen($path) - strlen("/index.php"));
         include($path."/version.php");
 
+        if(strpos($mystring, $this->MODULE_FOLDER) !== false)
+            $this->MODULE_FOLDER = "bitrix";
+
+
         if (is_array($arModuleVersion) && array_key_exists("VERSION", $arModuleVersion))
         {
             $this->MODULE_VERSION      = $arModuleVersion["VERSION"];
             $this->MODULE_VERSION_DATE = $arModuleVersion["VERSION_DATE"];
         }
 
-        $this->MODULE_NAME        = Loc::getMessage('MODULE_NAME') . ' ' . $MODULE_ID;
-        $this->MODULE_DESCRIPTION = Loc::getMessage('MODULE_DESCRIPTION') . ' ' . $MODULE_ID;
-
+        $this->MODULE_NAME        = Loc::getMessage('MODULE_NAME') . ' ' . $this->MODULE_ID;
+        $this->MODULE_DESCRIPTION = Loc::getMessage('MODULE_DESCRIPTION') . ' ' . $this->MODULE_ID;
 	}
 
-    /*
     function InstallFiles()
     {
-        CopyDirFiles($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/dv_module/install/components",
-                     $_SERVER["DOCUMENT_ROOT"]."/bitrix/components", true, true);
+        CopyDirFiles($_SERVER["DOCUMENT_ROOT"] . "/" . $this->MODULE_FOLDER . "/modules/" . $this->MODULE_ID . "/install/components",
+                     $_SERVER["DOCUMENT_ROOT"] . "/" . $this->MODULE_FOLDER . "/components", true, true);
         return true;
     }
 
     function UnInstallFiles()
     {
-        DeleteDirFilesEx("/bitrix/components/dv");
+        DeleteDirFilesEx("/" . $this->MODULE_FOLDER . "/components/" . $this->MODULE_ID);
         return true;
     }
-    */
 
     function installDB(){
         global $APPLICATION, $DB;
 
         $this->errors = false;
-        $this->errors = $DB->RunSQLBatch($_SERVER["DOCUMENT_ROOT"] . '/local/modules/' . $this->MODULE_ID . '/install/db/install.sql');
+        $this->errors = $DB->RunSQLBatch($_SERVER["DOCUMENT_ROOT"] . '/' . $this->MODULE_FOLDER . '/modules/' . $this->MODULE_ID . '/install/db/install.sql');
 
         if($this->errors !== false){
             $APPLICATION->ThrowException(implode("", $this->errors));
@@ -66,7 +68,7 @@ Class Vspace_comments extends CModule
         global $APPLICATION, $DB;
 
         $this->errors = false;
-        $this->errors = $DB->RunSQLBatch($_SERVER["DOCUMENT_ROOT"] . '/local/modules/' . $this->MODULE_ID . '/install/db/uninstall.sql');
+        $this->errors = $DB->RunSQLBatch($_SERVER["DOCUMENT_ROOT"] . '/' . $this->MODULE_FOLDER . '/modules/' . $this->MODULE_ID . '/install/db/uninstall.sql');
         
         if($this->errors !== false){
             $APPLICATION->ThrowException(implode("", $this->errors));
@@ -79,23 +81,23 @@ Class Vspace_comments extends CModule
     function DoInstall()
     {
         global $APPLICATION;
-        //$this->InstallFiles();
+        $this->InstallFiles();
         $this->installDB();
         RegisterModule($this->MODULE_ID);
  
         $pageTitle = Loc::getMessage("DMS_MODULE_INSTALL") . ' ' . $this->MODULE_ID;
-        $APPLICATION->IncludeAdminFile($pageTitle, $_SERVER["DOCUMENT_ROOT"] . '/local/modules/' . $this->MODULE_ID . '/install/step.php');
+        $APPLICATION->IncludeAdminFile($pageTitle, $_SERVER["DOCUMENT_ROOT"] . '/' . $this->MODULE_FOLDER . '/modules/' . $this->MODULE_ID . '/install/step.php');
     }
 
     function DoUninstall()
     {
         global $APPLICATION;
-        //$this->UnInstallFiles();
+        $this->UnInstallFiles();
         $this->uninstallDB();
         UnRegisterModule($this->MODULE_ID);
 
         $pageTitle = Loc::getMessage("DMS_MODULE_UNINSTALL") . ' ' . $this->MODULE_ID;
-        $APPLICATION->IncludeAdminFile($pageTitle, $_SERVER["DOCUMENT_ROOT"] . '/local/modules/' . $this->MODULE_ID . '/install/unstep.php');
+        $APPLICATION->IncludeAdminFile($pageTitle, $_SERVER["DOCUMENT_ROOT"] . '/' . $this->MODULE_FOLDER . '/modules/' . $this->MODULE_ID . '/install/unstep.php');
     }
 
 
