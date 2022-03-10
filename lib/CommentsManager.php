@@ -175,22 +175,21 @@ class CommentsManager{
     }
 
     /**
-     * Получения списка всех активных провайдеров для авторизации
+     * Получение списка всех активных провайдеров для авторизации
      * @return array
      */
     public function getSocialAuthActive(){
-        $socialData = [];
-        $config = $this->socialAuth->getSocialConfig();
 
-        foreach($config as $socialName => $authData){
-            if(!empty($authData['id']) && !empty($authData['secret'])){
-                unset($authData['id']);
-                unset($authData['secret']);
-                $socialData[$socialName] = $authData;
-            }
+        $providersData = [];
+        $configForProviders = $this->socialAuth->getProviders();
+
+        foreach($configForProviders as $providerName => $config){
+            $providersData[$providerName] = [
+                'icon' => $config["icon"]
+            ];
         }
 
-        return $socialData;
+        return $providersData;
     }
 
 }

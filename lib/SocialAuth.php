@@ -1,91 +1,77 @@
 <?
 namespace Vspace\Comments;
 
-use Hybridauth\Hybridauth;
-use Hybridauth\Provider\Vkontakte;
-use Hybridauth\Provider\Facebook;
-use Hybridauth\Provider\Twitter;
-use Hybridauth\Provider\Instagram;
 use \Bitrix\Main\Application;
 use \Hybridauth\HttpClient\Util;
 
 class SocialAuth{
 
-    public function getSocialConfig(){
-        $options = [];
+    public function getProviders(){
 
-        $options['twitter'] = [
+        $options = [];
+        $providers = [];
+
+        $options['Twitter'] = [
             'id'        => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'twitter_id'),
             'secret'    => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'twitter_secret'),
             'icon'      => 'icon-twitter-alt'
         ];
 
-        $options['facebook'] = [
+        $options['Facebook'] = [
             'id'        => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'facebook_id'),
             'secret'    => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'facebook_secret'),
             'icon'      => 'icon-facebook'
         ];
 
-        $options['instagram'] = [
+        $options['Instagram'] = [
             'id'        => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'instagram_id'),
             'secret'    => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'instagram_secret'),
             'icon'      => 'icon-instagram'
         ];
 
-        $options['vk'] = [
+        $options['Vkontakte'] = [
             'id'        => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'vk_id'),
             'secret'    => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'vk_secret'),
             'icon'      => 'icon-vk2'
         ];
         
-        return $options;
+        foreach($options as $providerClass => $config){
+            if(class_exists('Hybridauth\Provider\\' . $providerClass) && !empty($config['id']) && !empty($config['secret'])){
+                $providers[$providerClass] = $config;
+            }
+        }
+
+
+        return $providers;
     }
 
-	public function auth($socialType){
+	public function auth($providerName){
 
         global $APPLICATION;
-        $options = $this->getSocialConfig();
+        $providers = $this->getProviders();
 
         try{
-            if(array_key_exists($socialType, $options)){
-                $keys = $options[$socialType];
-                if(empty($keys['id']) || empty($keys['secret'])){
-                    throw new \Exception('Ошибка: не заполнены в настройках данные приложения');
-                }
-            } else throw new \Exception('Ошибка: не найдены данные приложения для текущего провайдера');
+
+            if(!array_key_exists($providerName, $providers))
+                throw new \Exception('Ошибка: переданный провайдер отсутствует в списке доступных');
+
         } catch (\Exception $ex) {
             echo $ex->getMessage();
             exit;
         }
 
-        //$arrUrlFrag = parse_url($APPLICATION->GetCurPageParam());
-        // $callbackUrl = Util::getCurrentUrl() . '?' . $arrUrlFrag['query'];
-        $callbackUrl = Util::getCurrentUrl() . '?action=auth&provider=' . $socialType;
-
+        $callbackUrl = Util::getCurrentUrl() . '?action=auth&provider=' . $providerName;
 
         $config = [
             'callback'  => $callbackUrl,
             'keys' => [ 
-                'id'     => $keys['id'],
-                'secret' => $keys['secret'], 
+                'id'     => $providers[$providerName]['id'],
+                'secret' => $providers[$providerName]['secret']
             ],
         ];
 
-        switch ($socialType){
-            case 'twitter':
-                $adapter = new Facebook($config);
-                break;
-            case 'facebook':
-                $adapter = new Twitter($config);
-                break;
-            case 'instagram':
-                $adapter = new Instagram($config);
-                break;
-
-            case 'vk':
-                $adapter = new Vkontakte($config);
-                break;
-        }
+        $providerClassName = '\Hybridauth\Provider\\' . $providerName;
+        $adapter = new $providerClassName($config);
 
         try {
             if (!$adapter->isConnected()) {
@@ -101,13 +87,13 @@ class SocialAuth{
         $userProfile = json_decode(json_encode($userProfile), true);
 
         return array(
-            'id'        => $userProfile["identifier"],
-            'firstname' => $userProfile["firstName"],
-            'lastname'  => $userProfile["lastName"],
-            'email'     => $userProfile["email"],
-            'image'     => $userProfile["photoURL"],
-            'socialtype'=> $socialType,
-            'profileURL'=>$userProfile["profileURL"]
+            'id'         => $userProfile["identifier"],
+            'firstname'  => $userProfile["firstName"],
+            'lastname'   => $userProfile["lastName"],
+            'email'      => $userProfile["email"],
+            'image'      => $userProfile["photoURL"],
+            'socialtype' => $providerName,
+            'profileURL' =>$userProfile["profileURL"]
         );
 
         
