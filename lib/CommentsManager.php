@@ -8,6 +8,10 @@ use Vspace\Comments\DataProviders\GeneralDataProvider;
 
 class CommentsManager{
 	
+    private const PROVIDER_NAME_COOKIE_KEY  = 'vspace_provider_name';
+    private const USER_ID_COOKIE_KEY        = 'vspace_user_id';
+    private const HASH_COOKIE_KEY           = 'vspace_hash';
+
 	/**
 	 * @var $generalDataProvider
 	 */
@@ -96,15 +100,15 @@ class CommentsManager{
      * @param  array $socialType
      * @return array
      */
-    public function auth($socialType){
-        $socialUserData = $this->socialAuth->auth($socialType);
-        $cacheLifeTime  = time() + 50000;
-        $socialType     = "vk";
-        $hash           = md5($socialUserData["id"] . ':' . $socialType);
+    public function auth($providerName){
 
-        setcookie("dms_user_id", $socialUserData["id"], $cacheLifeTime);
-        setcookie("dms_social_type", $socialType, $cacheLifeTime);
-        setcookie("dms_hash", $hash, $cacheLifeTime);
+        $socialUserData = $this->socialAuth->auth($providerName);
+        $cacheLifeTime  = time() + 50000;
+        $hash           = md5($socialUserData["id"] . ':' . $providerName);
+
+        setcookie(self::USER_ID_COOKIE_KEY, $socialUserData["id"], $cacheLifeTime);
+        setcookie(self::PROVIDER_NAME_COOKIE_KEY, $providerName, $cacheLifeTime);
+        setcookie(self::HASH_COOKIE_KEY, $hash, $cacheLifeTime);
 
         return $socialUserData;
     }
@@ -115,8 +119,8 @@ class CommentsManager{
      */
     public function isAuth(){
         $isAuth = false;
-        $hash = md5($_COOKIE['dms_user_id'] . ':' . $_COOKIE['dms_social_type']);
-        if(strcasecmp($hash, $_COOKIE['dms_hash']) === 0)
+        $hash = md5($_COOKIE[self::USER_ID_COOKIE_KEY] . ':' . $_COOKIE[self::PROVIDER_NAME_COOKIE_KEY]);
+        if(strcasecmp($hash, $_COOKIE[self::HASH_COOKIE_KEY]) === 0)
             $isAuth = true;
 
         return $isAuth;
@@ -127,8 +131,8 @@ class CommentsManager{
      *  @return bool|int
      */
     public function getUserId(){
-        if(!empty($_COOKIE['dms_user_id'])){
-            return $this->generalDataProvider->findSocialUser($_COOKIE['dms_user_id'], $_COOKIE['dms_social_type']);
+        if(!empty($_COOKIE[self::USER_ID_COOKIE_KEY])){
+            return $this->generalDataProvider->findSocialUser($_COOKIE[self::USER_ID_COOKIE_KEY], $_COOKIE[self::PROVIDER_NAME_COOKIE_KEY]);
         } else return false;
     }
 
