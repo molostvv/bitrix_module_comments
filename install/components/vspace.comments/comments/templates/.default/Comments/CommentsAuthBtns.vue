@@ -19,7 +19,7 @@
         methods: {
             socialAuth: function(authProvider){
                 var self = this;
-                var url = location.href + '?action=auth&provider=' + authProvider;
+                var url = location.pathname + '?action=auth&provider=' + authProvider;
 
                 var screenX = typeof window.screenX != 'undefined' ? window.screenX : window.screenLeft,
                     screenY = typeof window.screenY != 'undefined' ? window.screenY : window.screenTop,
@@ -39,7 +39,6 @@
                         clearInterval(timer);
                     }
                 }, 600);
-
 
                 return false;
 

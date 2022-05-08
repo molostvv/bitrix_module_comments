@@ -34,7 +34,13 @@ class SocialAuth{
             'secret'    => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'vk_secret'),
             'icon'      => 'icon-vk2'
         ];
-        
+  
+        $options['Telegram'] = [
+            'id'        => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'telegram_id'),
+            'secret'    => \COption::GetOptionString(VSPACE_COMMENTS_MODULE_ID, 'telegram_secret'),
+            'icon'      => 'icon-telegram'
+        ];
+
         foreach($options as $providerClass => $config){
             if(class_exists('Hybridauth\Provider\\' . $providerClass) && !empty($config['id']) && !empty($config['secret'])){
                 $providers[$providerClass] = $config;
@@ -87,13 +93,13 @@ class SocialAuth{
         $userProfile = json_decode(json_encode($userProfile), true);
 
         return array(
-            'id'         => $userProfile["identifier"],
-            'firstname'  => $userProfile["firstName"],
-            'lastname'   => $userProfile["lastName"],
-            'email'      => $userProfile["email"],
-            'image'      => $userProfile["photoURL"],
-            'socialtype' => $providerName,
-            'profileURL' =>$userProfile["profileURL"]
+            'id'             => $userProfile["identifier"],
+            'firstname'      => $userProfile["firstName"],
+            'lastname'       => $userProfile["lastName"],
+            'email'          => $userProfile["email"],
+            'image'          => $userProfile["photoURL"],
+            'socialprovider' => $providerName,
+            'profileURL'     => $userProfile["profileURL"]
         );
 
         

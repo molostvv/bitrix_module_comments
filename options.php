@@ -21,62 +21,76 @@ $aTabs = array(
          * Вкладка «Основные настройки»
          */
         'DIV'     => 'edit1',
-        'TAB'     => Loc::getMessage('DMS_COMMENTS_OPTIONS_TAB_GENERAL'),
-        'TITLE'   => Loc::getMessage('DMS_COMMENTS_OPTIONS_TAB_GENERAL'),
+        'TAB'     => Loc::getMessage('VSPACE_COMMENTS_OPTIONS_TAB_GENERAL'),
+        'TITLE'   => Loc::getMessage('VSPACE_COMMENTS_OPTIONS_TAB_GENERAL'),
         'OPTIONS' => array(
             // twitter
-            Loc::getMessage('DMS_COMMENTS_OPTIONS_TAB_TWITTER'),
+            Loc::getMessage('VSPACE_COMMENTS_OPTIONS_TAB_TWITTER'),
             array(
                 'twitter_id',
-                Loc::getMessage('DMS_COMMENTS_OPTIONS_TWITTER_ID'),
+                Loc::getMessage('VSPACE_COMMENTS_OPTIONS_TWITTER_ID'),
                 '',
                 array('text', 25)
             ),
             array(
                 'twitter_secret',
-                Loc::getMessage('DMS_COMMENTS_OPTIONS_TWITTER_SECRET'),
+                Loc::getMessage('VSPACE_COMMENTS_OPTIONS_TWITTER_SECRET'),
                 '',
                 array('text', 25)
             ),
             // facebook
-            Loc::getMessage('DMS_COMMENTS_OPTIONS_TAB_FACEBOOK'),
+            Loc::getMessage('VSPACE_COMMENTS_OPTIONS_TAB_FACEBOOK'),
             array(
                 'facebook_id',
-                Loc::getMessage('DMS_COMMENTS_OPTIONS_FACEBOOK_ID'),
+                Loc::getMessage('VSPACE_COMMENTS_OPTIONS_FACEBOOK_ID'),
                 '',
                 array('text', 25)
             ),
             array(
                 'facebook_secret',
-                Loc::getMessage('DMS_COMMENTS_OPTIONS_FACEBOOK_SECRET'),
+                Loc::getMessage('VSPACE_COMMENTS_OPTIONS_FACEBOOK_SECRET'),
                 '',
                 array('text', 25)
             ),
             // instagram
-            Loc::getMessage('DMS_COMMENTS_OPTIONS_TAB_INSTAGRAM'),
+            Loc::getMessage('VSPACE_COMMENTS_OPTIONS_TAB_INSTAGRAM'),
             array(
                 'instagram_id',
-                Loc::getMessage('DMS_COMMENTS_OPTIONS_INSTAGRAM_ID'),
+                Loc::getMessage('VSPACE_COMMENTS_OPTIONS_INSTAGRAM_ID'),
                 '',
                 array('text', 25)
             ),
             array(
                 'instagram_secret',
-                Loc::getMessage('DMS_COMMENTS_OPTIONS_INSTAGRAM_SECRET'),
+                Loc::getMessage('VSPACE_COMMENTS_OPTIONS_INSTAGRAM_SECRET'),
                 '',
                 array('text', 25)
             ),
             // vk
-            Loc::getMessage('DMS_COMMENTS_OPTIONS_TAB_VK'),
+            Loc::getMessage('VSPACE_COMMENTS_OPTIONS_TAB_VK'),
             array(
                 'vk_id',
-                Loc::getMessage('DMS_COMMENTS_OPTIONS_VK_ID'),
+                Loc::getMessage('VSPACE_COMMENTS_OPTIONS_VK_ID'),
                 '',
                 array('text', 25)
             ),
             array(
                 'vk_secret',
-                Loc::getMessage('DMS_COMMENTS_OPTIONS_VK_SECRET'),
+                Loc::getMessage('VSPACE_COMMENTS_OPTIONS_VK_SECRET'),
+                '',
+                array('text', 25)
+            ),
+            // telegram
+            Loc::getMessage('VSPACE_COMMENTS_OPTIONS_TAB_TELEGRAM'),
+            array(
+                'telegram_id',
+                Loc::getMessage('VSPACE_COMMENTS_OPTIONS_TELEGRAM_ID'),
+                '',
+                array('text', 25)
+            ),
+            array(
+                'telegram_secret',
+                Loc::getMessage('VSPACE_COMMENTS_OPTIONS_TELEGRAM_SECRET'),
                 '',
                 array('text', 25)
             ),
@@ -106,7 +120,7 @@ $tabControl->begin();
     $tabControl->buttons();
     ?>
     <input type="submit" name="apply" 
-           value="<?= Loc::GetMessage('DMS_COMMENTS_OPTIONS_INPUT_APPLY'); ?>" class="adm-btn-save" />
+           value="<?= Loc::GetMessage('VSPACE_COMMENTS_OPTIONS_INPUT_APPLY'); ?>" class="adm-btn-save" />
 </form>
 
 <?php

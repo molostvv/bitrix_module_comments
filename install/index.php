@@ -85,7 +85,7 @@ Class Vspace_comments extends CModule
         $this->installDB();
         RegisterModule($this->MODULE_ID);
  
-        $pageTitle = Loc::getMessage("DMS_MODULE_INSTALL") . ' ' . $this->MODULE_ID;
+        $pageTitle = Loc::getMessage("VSPACE_MODULE_INSTALL") . ' ' . $this->MODULE_ID;
         $APPLICATION->IncludeAdminFile($pageTitle, $_SERVER["DOCUMENT_ROOT"] . '/' . $this->MODULE_FOLDER . '/modules/' . $this->MODULE_ID . '/install/step.php');
     }
 
@@ -96,7 +96,7 @@ Class Vspace_comments extends CModule
         $this->uninstallDB();
         UnRegisterModule($this->MODULE_ID);
 
-        $pageTitle = Loc::getMessage("DMS_MODULE_UNINSTALL") . ' ' . $this->MODULE_ID;
+        $pageTitle = Loc::getMessage("VSPACE_MODULE_UNINSTALL") . ' ' . $this->MODULE_ID;
         $APPLICATION->IncludeAdminFile($pageTitle, $_SERVER["DOCUMENT_ROOT"] . '/' . $this->MODULE_FOLDER . '/modules/' . $this->MODULE_ID . '/install/unstep.php');
     }
 
