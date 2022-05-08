@@ -2,8 +2,7 @@
 namespace Vspace\Comments\DataProviders;
 
 use Bitrix\Main\Type;
-
-require_once __DIR__ . "/MessagesTable.php";
+use Vspace\Comments\Entities\MessagesTable;
 
 class CommentsProvider{
 	

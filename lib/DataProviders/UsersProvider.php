@@ -2,8 +2,7 @@
 namespace Vspace\Comments\DataProviders;
 
 use Vspace\Comments\FileManager;
-
-require_once __DIR__ . "/UsersTable.php";
+use Vspace\Comments\Entities\UsersTable;
 
 class UsersProvider{
     
@@ -41,8 +40,8 @@ class UsersProvider{
 
         $params = array(
             'filter' => array(
-                'SOCIAL_ID'     => $userSocialId, 
-                'SOCIAL_TYPE'   => $userSocialType
+                'SOCIAL_ID'         => $userSocialId, 
+                'SOCIAL_PROVIDER'   => $userSocialType
             ),
             'limit' => 1
         );
@@ -60,21 +59,22 @@ class UsersProvider{
      * @throws \Exception
      */
     public function addSocialUser($data){
-
+        
         $userData = array(
-            'FIRSTNAME'     => $data['firstname'],
-            'LASTNAME'      => $data['lastname'],
-            'EMAIL'         => $data['email'],
-            'PHOTO'         => FileManager::saveRemoteFile($data['image']),
-            'SOCIAL_ID'     => $data['id'],
-            'SOCIAL_TYPE'   => $data['socialtype']
+            'FIRSTNAME'             => $data['firstname'],
+            'LASTNAME'              => $data['lastname'],
+            'EMAIL'                 => $data['email'],
+            'PHOTO'                 => FileManager::saveRemoteFile($data['image']),
+            'SOCIAL_ID'             => $data['id'],
+            'SOCIAL_PROVIDER'       => $data['socialprovider'],
+            'SOCIAL_PROFILE_URL'    => $data['profileURL']
         );
 
         $result = UsersTable::add($userData);
 
         try{
             if(!$result->isSuccess())
-                throw new \Exception('Ошибка: не удалось добавить пользователя');
+                throw new \Exception('Ошибка: не удалось добавить пользователя ' . var_export($result->getErrorMessages(), true));
 
             $id = $result->getId();
             $userData['ID'] = $id;
