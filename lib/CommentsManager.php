@@ -206,6 +206,26 @@ class CommentsManager{
         setcookie(self::HASH_COOKIE_KEY, "", time() - 1);
     }
 
+
+    /**
+    * Добавить/удалить лайк/дизлайк у сообщения от пользователя
+    * @param  int  $userId
+    * @param  int  $messageId
+    * @param  string  $vote
+    * @return bool
+    */
+    public function toggleLike($userId, $messageId, $vote){
+        $voteId = $this->generalDataProvider->isVoteMessageFromUser($userId, $messageId, $vote);
+        
+        if($voteId){
+            $result = $this->generalDataProvider->deleteVote($voteId);
+        } else {
+            $result = $this->generalDataProvider->addVote($userId, $messageId, $vote);
+        }
+        
+        return $result;
+    }
+
 }
 
 ?>

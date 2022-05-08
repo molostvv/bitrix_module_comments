@@ -5,6 +5,9 @@
 
 namespace Vspace\Comments;
 use Vspace\Comments\DataProviders\GeneralDataProvider;
+use Vspace\Comments\DataProviders\CommentsProvider;
+use Vspace\Comments\DataProviders\UsersProvider;
+use Vspace\Comments\DataProviders\VoteProvider;
 
 class CommentsFactory{
 
@@ -13,7 +16,7 @@ class CommentsFactory{
 	}
 
 	public static function getDataProvider(){
-		return new GeneralDataProvider();
+		return new GeneralDataProvider( new CommentsProvider(), new UsersProvider(), new VoteProvider());
 	}
 
 	public static function getSocialAuth(){

@@ -305,3 +305,10 @@
     border-radius: 50%;
     font-size: 23px;
 }
+
+.comment-message-footer{
+    border: 1px solid rgba(221, 221, 221, 0.478);
+    word-wrap: break-word;
+    padding: 5px 58px;
+    border-top: 0px;
+}

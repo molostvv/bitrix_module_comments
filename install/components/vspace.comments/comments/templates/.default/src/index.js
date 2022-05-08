@@ -16,6 +16,7 @@ let vcomments = new Vue({
         user: {},
         social: {},
         pageId: false,
+        logout: false,
 
         count: null,
         offset: 0,
@@ -27,6 +28,9 @@ let vcomments = new Vue({
         },
         dataLoad: function(){
             return this.pageId ? true : false;
+        },
+        isAuth: function(){
+            return this.user.ID && !this.logout ? true : false;
         }
     },
     methods: {
@@ -62,8 +66,9 @@ let vcomments = new Vue({
             this.comments = temp.concat( data['COMMENTS'] );
         },
         checkAuth: async function (){
-            let data = await this.getData();
-            this.user     = data['USER'];
+            let data    = await this.getData();
+            this.user   = data['USER'];
+            this.logout = false;
         }
     },
     created: async function() {

@@ -5,7 +5,7 @@
                 <li>
                     <div v-if="comments.length">
                         <transition-group name="list" tag="div">
-                            <comment-item v-for="comment in comments" v-bind:comment="comment" v-bind:key="comment.ID"></comment-item>
+                            <comment-item v-for="comment in comments" v-bind:comment="comment" v-bind:user="user" v-bind:key="comment.ID"></comment-item>
                         </transition-group>
                     </div>
                     <div v-else>Комментарии отсутствуют</div>

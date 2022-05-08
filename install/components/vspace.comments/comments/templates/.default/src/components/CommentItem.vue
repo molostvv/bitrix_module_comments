@@ -21,18 +21,32 @@
 		<div class="comment-body">
 			<p>{{comment.MESSAGE}}</p>
 		</div>
+		<div class="comment-message-footer">
+			<a v-on:click="vote('LIKE')">like</a>
+			<a v-on:click="vote('DISLIKE')">dislike</a>
+		</div>
 	</article>
 </template>
 
 <script>
 	export default {
-		props: {
-			comment: Object
-		},
 		data() {
 			return {
 				focused: false
 			}
 		},
+		props: {
+			comment: Object,
+			user: Object
+		},
+		methods: {
+            getUrlVote(vote){
+                return location.pathname + '?action=vote&user_id=' + this.user.ID + '&comment_id=' + this.comment.ID + '&vote=' + vote;
+            },
+            vote: async function(vote){
+                let response = await fetch(this.getUrlVote(vote));
+                console.log(response);   
+            }
+		}
 	}
 </script>

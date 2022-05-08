@@ -96,6 +96,9 @@ class CommentsClassComponent extends CBitrixComponent
             case "logout":
                 $result = $this->logout();
                 break;
+            case "vote":
+                $result = $this->vote();
+                break;
         }
         echo json_encode($result);
         die();
@@ -109,6 +112,17 @@ class CommentsClassComponent extends CBitrixComponent
         $message = $request->get("message");
         $commentsManager = CommentsFactory::getCommentsManager();
         return $commentsManager->setComment($userId, $itemId, $message);
+    }
+
+    public function vote(){
+        global $APPLICATION;
+        $request    = \Bitrix\Main\Context::getCurrent()->getRequest();
+        $userId     = $request->get("user_id");
+        $messageId  = $request->get("comment_id");
+        $vote       = $request->get("vote");
+
+        $commentsManager = CommentsFactory::getCommentsManager();
+        $commentsManager->toggleLike($userId, $messageId, $vote);
     }
 
     /*

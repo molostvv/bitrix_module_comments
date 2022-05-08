@@ -439,17 +439,31 @@ process.umask = function () {
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["a"] = ({
-  props: {
-    comment: Object
-  },
-
   data() {
     return {
       focused: false
     };
-  }
+  },
 
+  props: {
+    comment: Object,
+    user: Object
+  },
+  methods: {
+    getUrlVote(vote) {
+      return location.pathname + '?action=vote&user_id=' + this.user.ID + '&comment_id=' + this.comment.ID + '&vote=' + vote;
+    },
+
+    vote: async function (vote) {
+      let response = await fetch(this.getUrlVote(vote));
+      console.log(response);
+    }
+  }
 });
 
 /***/ }),
@@ -457,6 +471,9 @@ process.umask = function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+//
+//
+//
 //
 //
 //
@@ -505,12 +522,22 @@ process.umask = function () {
       return location.pathname + '?action=addComment&message=' + this.message + '&user_id=' + this.user.ID + '&item_id=' + this.pageId;
     },
 
+    getUrlLogOut() {
+      return location.pathname + '?action=logout';
+    },
+
     postComment: async function () {
       this.preloader = true;
       let response = await fetch(this.getUrlAddComment());
       let resp = await response.text();
       this.preloader = false;
       this.$emit('update');
+    },
+    logout: async function () {
+      this.preloader = true;
+      let response = await fetch(this.getUrlLogOut());
+      this.preloader = false;
+      this.$emit('logout');
     }
   }
 });
@@ -591,6 +618,7 @@ let vcomments = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
     user: {},
     social: {},
     pageId: false,
+    logout: false,
     count: null,
     offset: 0,
     nPageSize: null
@@ -601,6 +629,9 @@ let vcomments = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
     },
     dataLoad: function () {
       return this.pageId ? true : false;
+    },
+    isAuth: function () {
+      return this.user.ID && !this.logout ? true : false;
     }
   },
   methods: {
@@ -634,6 +665,7 @@ let vcomments = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
     checkAuth: async function () {
       let data = await this.getData();
       this.user = data['USER'];
+      this.logout = false;
     }
   },
   created: async function () {
@@ -11902,7 +11934,8 @@ var render = function() {
           _c("h4", { staticClass: "comment-author" }, [
             _c("a", { attrs: { href: "#" } }, [
               _vm._v(_vm._s(_vm.comment.USER.FULLNAME))
-            ])
+            ]),
+            _vm._v(" (" + _vm._s(_vm.comment.USER.SOCIAL_PROVIDER) + ")")
           ])
         ]),
         _vm._v(" "),
@@ -11923,6 +11956,34 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "comment-body" }, [
       _c("p", [_vm._v(_vm._s(_vm.comment.MESSAGE))])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "comment-message-footer" }, [
+      _c(
+        "a",
+        {
+          attrs: { href: "#like" },
+          on: {
+            click: function($event) {
+              _vm.vote("LIKE")
+            }
+          }
+        },
+        [_vm._v("like")]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          attrs: { href: "#dislike" },
+          on: {
+            click: function($event) {
+              _vm.vote("DISLIKE")
+            }
+          }
+        },
+        [_vm._v("dislike")]
+      )
     ])
   ])
 }
@@ -12017,7 +12078,17 @@ var render = function() {
           _c("h4", { staticClass: "comment-author" }, [
             _c("a", { attrs: { href: "#" } }, [
               _vm._v(_vm._s(_vm.user.FULLNAME))
-            ])
+            ]),
+            _vm._v(
+              " ( " +
+                _vm._s(_vm.user.SOCIAL_PROVIDER) +
+                ")\n                    "
+            ),
+            _c(
+              "a",
+              { staticClass: "comment-logout", on: { click: _vm.logout } },
+              [_vm._v("logout")]
+            )
           ])
         ]),
         _vm._v(" "),

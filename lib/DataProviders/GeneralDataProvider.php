@@ -4,8 +4,6 @@
  */
 namespace Vspace\Comments\DataProviders;
 
-require_once __DIR__ . "/CommentsProvider.php";
-require_once __DIR__ . "/UsersProvider.php";
 
 class GeneralDataProvider{
 
@@ -19,9 +17,10 @@ class GeneralDataProvider{
 	 */
 	private $_usersProvider;
 
-	public function __construct(){
-		$this->_commentsProvider = new CommentsProvider();
-		$this->_usersProvider 	 = new UsersProvider();
+	public function __construct($commentsProvider, $usersProvider, $voteProvider){
+		$this->_commentsProvider = $commentsProvider;
+		$this->_usersProvider 	 = $usersProvider;
+		$this->_voteProvider 	 = $voteProvider;
 	}
 
 	public function getUsers($params){
@@ -67,6 +66,27 @@ class GeneralDataProvider{
      */
     public function addSocialUser($data){
         return $this->_usersProvider->addSocialUser($data);
+    }
+
+    /**
+    *	Добавление голоса
+    */
+    public function addVote($userId, $messageId, $vote){
+    	return $this->_voteProvider->addVote($userId, $messageId, $vote);
+    }
+
+    /**
+    *	Удаление голоса
+    */
+    public function deleteVote($id){
+    	return $this->_voteProvider->deleteVote($id);
+    }
+
+    /**
+    *	Получить голос для сообщения от указаного пользователя
+    */
+    public function isVoteMessageFromUser($userId, $messageId, $vote){
+    	return $this->_voteProvider->isVoteMessageFromUser($userId, $messageId, $vote);
     }
 
 }
