@@ -59,11 +59,11 @@ class UsersProvider{
      * @throws \Exception
      */
     public function addSocialUser($data){
-        
+
         $userData = array(
             'FIRSTNAME'             => $data['firstname'],
-            'LASTNAME'              => $data['lastname'],
-            'EMAIL'                 => $data['email'],
+            'LASTNAME'              => !empty($data['lastname']) ? $data['lastname']: " ",
+            'EMAIL'                 => !empty($data['email']) ? $data['email']: "  ",
             'PHOTO'                 => FileManager::saveRemoteFile($data['image']),
             'SOCIAL_ID'             => $data['id'],
             'SOCIAL_PROVIDER'       => $data['socialprovider'],

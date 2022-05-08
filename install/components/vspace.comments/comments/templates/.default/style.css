@@ -36,8 +36,9 @@
 
 .comments .comment-header {
     position: relative;
-    margin-bottom: 20px;
-    padding: 0 20px;
+    margin-bottom: 0px;
+    margin-top: 15px;
+    padding: 0px 20px;
     background-color: #e8e8e8;
 }
 

@@ -196,6 +196,16 @@ class CommentsManager{
         return $providersData;
     }
 
+    /**
+    * Разлогинить пользователя
+    * @return void
+    */
+    public function logout(){
+        setcookie(self::USER_ID_COOKIE_KEY, "", time() - 1);
+        setcookie(self::PROVIDER_NAME_COOKIE_KEY, "", time() - 1);
+        setcookie(self::HASH_COOKIE_KEY, "", time() - 1);
+    }
+
 }
 
 ?>

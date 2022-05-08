@@ -6,7 +6,7 @@
 					<img class="comment-avatar" v-bind:src="comment.USER.PHOTO_PATH" width="30" height="30" alt="">
 				</div>
 				<div class="width-expand">
-					<h4 class="comment-author"><a href="#">{{comment.USER.FULLNAME}}</a></h4>
+					<h4 class="comment-author"><a href="#">{{comment.USER.FULLNAME}}</a> ({{comment.USER.SOCIAL_PROVIDER}})</h4>
 				</div>
 				<div class="width-auto">
 					<p class="comment-meta">

@@ -93,6 +93,9 @@ class CommentsClassComponent extends CBitrixComponent
                 // todo: Проверка на авторизацию
                 //$result = $this->changeComment();
                 break;
+            case "logout":
+                $result = $this->logout();
+                break;
         }
         echo json_encode($result);
         die();
@@ -106,6 +109,14 @@ class CommentsClassComponent extends CBitrixComponent
         $message = $request->get("message");
         $commentsManager = CommentsFactory::getCommentsManager();
         return $commentsManager->setComment($userId, $itemId, $message);
+    }
+
+    /*
+    *  Разлогинивание авторизованного пользователя
+    */
+    public function logout(){
+        $commentsManager = CommentsFactory::getCommentsManager();
+        $commentsManager->logout();
     }
 
     public function getInitialData()

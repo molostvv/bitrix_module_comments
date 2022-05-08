@@ -17,8 +17,8 @@
                         <li>
                             <article class="comment">
                                 <form class="comment-form">
-                                    <comment-post v-if="user.ID" v-bind:user="user" v-bind:pageId="pageId" v-on:update="updateComments"></comment-post>
-                                    <comments-auth-btns v-bind:social="social" v-on:winclose="checkAuth" v-else></comments-auth-btns>
+                                    <comment-post v-if="isAuth" v-bind:user="user" v-bind:pageId="pageId" v-on:update="updateComments" v-on:logout="logout = true"></comment-post>
+                                    <comments-auth-btns v-bind:social="social" v-on:winclose="checkAuth" v-on:logout="checkAuth" v-else></comments-auth-btns>
                                 </form>
                             </article>
                         </li>
