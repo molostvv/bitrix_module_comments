@@ -22,30 +22,19 @@ class FileManager
         $fileId	= false;
     	
     	// Создаем директорию, если отсутствует
-        try{
-            if(!is_dir($filesDir)){
-                if(!mkdir($filesDir, 0777)){
-                    throw new \Exception('Ошибка: не удалось создать директорию для файлов');
-                }
+        if(!is_dir($filesDir)){
+            if(!mkdir($filesDir, 0777)){
+                throw new \Exception('Ошибка: не удалось создать директорию для файлов');
             }
-        } catch (\Exception $ex) {
-            echo $ex->getMessage();
-            exit;
         }
 
         $fileSaveResult = file_put_contents($filesDir . $fileName, $fileBinaryData);
 
-        try{
-            if(!($fileSaveResult > 0))
-                throw new \Exception('Ошибка: не удалось сохранить изображение');
+        if(!($fileSaveResult > 0))
+            throw new \Exception('Ошибка: не удалось сохранить изображение');
 
-            $arFile 			 = \CFile::MakeFileArray($filesDir . $fileName);
-            $fileSaveId 		 = \CFile::SaveFile($arFile, ["MODULE_ID" => VSPACE_COMMENTS_MODULE_ID]);
-
-        } catch (\Exception $ex) {
-            echo $ex->getMessage();
-            exit;
-        }
+        $arFile 			 = \CFile::MakeFileArray($filesDir . $fileName);
+        $fileSaveId 		 = \CFile::SaveFile($arFile, ["MODULE_ID" => VSPACE_COMMENTS_MODULE_ID]);
 
         return $fileSaveId;
 	}

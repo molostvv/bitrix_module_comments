@@ -58,16 +58,15 @@ class CommentsProvider{
 			'MESSAGE'		=> $message
 		);
 
-		$messageResult = MessagesTable::add($messageData);
+		$result = MessagesTable::add($messageData);
 
-		if ($messageResult->isSuccess()){
-		    $messageResult = $messageResult->getData();
-		    $messageResult = $this->extractFromDB($messageResult);
-		} else {
-			$messageResult = false;
-		}
+		if(!$result->isSuccess())
+			throw new \Exception(implode("; ", $result->getErrorMessages()));
 
-		return $messageResult;
+		$result = $result->getData();
+		$result = $this->extractFromDB($result);
+
+		return $result;
 	}
 }
 

@@ -72,18 +72,12 @@ class UsersProvider{
 
         $result = UsersTable::add($userData);
 
-        try{
-            if(!$result->isSuccess())
-                throw new \Exception('Ошибка: не удалось добавить пользователя ' . var_export($result->getErrorMessages(), true));
+        if(!$result->isSuccess())
+            throw new \Exception(implode("; ", $result->getErrorMessages()));
 
-            $id = $result->getId();
-            $userData['ID'] = $id;
-            return $userData;
-
-        } catch (\Exception $ex) {
-            echo $ex->getMessage();
-            exit;
-        }
+        $id = $result->getId();
+        $userData['ID'] = $id;
+        return $userData;
     }
 
 }

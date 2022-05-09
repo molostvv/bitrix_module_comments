@@ -21,17 +21,10 @@ class VoteProvider{
 		    'USER_ID'		=> $userId
 		));
 
-        try{
-            if(!$result->isSuccess())
-                throw new \Exception('Ошибка: не удалось добавить голос' . var_export($result->getErrorMessages(), true));
+        if(!$result->isSuccess())
+            throw new \Exception(implode("; ", $result->getErrorMessages()));
 
-            return $result->getId();
-
-        } catch (\Exception $ex) {
-            echo $ex->getMessage();
-            exit;
-        }
-
+        return $result->getId();
     }
 
     /**
@@ -44,16 +37,10 @@ class VoteProvider{
     public function deleteVote($id){
     	$result = VoteTable::delete($id);
 
-        try{
-            if(!$result->isSuccess())
-                throw new \Exception('Ошибка: не удалось удалить запись' . var_export($result->getErrorMessages(), true));
+        if(!$result->isSuccess())
+            throw new \Exception(implode("; ", $result->getErrorMessages()));
 
-            return true;
-
-        } catch (\Exception $ex) {
-            echo $ex->getMessage();
-            exit;
-        }
+        return true;
     }
 
     /**

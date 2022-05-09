@@ -56,15 +56,9 @@ class SocialAuth{
         global $APPLICATION;
         $providers = $this->getProviders();
 
-        try{
+        if(!array_key_exists($providerName, $providers))
+            throw new \Exception('Ошибка: переданный провайдер отсутствует в списке доступных');
 
-            if(!array_key_exists($providerName, $providers))
-                throw new \Exception('Ошибка: переданный провайдер отсутствует в списке доступных');
-
-        } catch (\Exception $ex) {
-            echo $ex->getMessage();
-            exit;
-        }
 
         $callbackUrl = Util::getCurrentUrl() . '?action=auth&provider=' . $providerName;
 
@@ -79,16 +73,11 @@ class SocialAuth{
         $providerClassName = '\Hybridauth\Provider\\' . $providerName;
         $adapter = new $providerClassName($config);
 
-        try {
-            if (!$adapter->isConnected()) {
-                $adapter->authenticate();
-            }
-            $userProfile = $adapter->getUserProfile();
+        if (!$adapter->isConnected()) {
+            $adapter->authenticate();
         }
-        catch(\Exception $e) {
-            print $e->getMessage();
-            exit;
-        }
+        $userProfile = $adapter->getUserProfile();
+ 
 
         $userProfile = json_decode(json_encode($userProfile), true);
 
