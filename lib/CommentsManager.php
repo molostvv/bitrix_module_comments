@@ -34,24 +34,34 @@ class CommentsManager{
      */
     public function getComments($params = []){
 
-        $usersList      = array();
-        $usersListId    = array();
-        $commentsList   = $this->generalDataProvider->getComments($params);
+        $commentsList = $this->generalDataProvider->getComments($params);
 
-        foreach ($commentsList as $comment) {
-            $usersListId[] = $comment["USER_ID"];
-        }
-
-        $paramsUsers['filter'] = array(
-            'ID' => $usersListId
-        );
-
+        // Формируем фильтр для получения списка пользователей
+        $paramsUsers['filter']['ID'] = array_column($commentsList, 'USER_ID');
         $usersList = $this->generalDataProvider->getUsers($paramsUsers);
         
+        // Получем количество лайков для каждого сообщения
+        $arMessagesVotes = $this->generalDataProvider->getVoteCountForMessages();
+
         foreach ($commentsList as $commentId => $comment) {
             if(array_key_exists($comment['USER_ID'], $usersList)){
                 $commentsList[$commentId]['USER'] = $usersList[ $comment['USER_ID'] ];
             }
+
+            if(array_key_exists($commentId, $arMessagesVotes)){
+               $commentsList[$commentId] = array_merge($commentsList[$commentId], $arMessagesVotes[$commentId]);
+            }
+        }
+
+        // Формируем фильтр для получения списка голосов для сообщений для указанного пользователя
+        $paramsVote['filter']['MESSAGE_ID'] = array_column($commentsList, 'ID');
+        $paramsVote['filter']['USER_ID']    = 1; // todo: Заменить на id текущего пользователя
+        $voteList = $this->generalDataProvider->getVote($paramsVote);
+
+        foreach ($voteList as $vote) {
+            if(array_key_exists($vote['MESSAGE_ID'], $commentsList)){
+                $commentsList[$vote['MESSAGE_ID']]['VOTE_CURRENT_USER'][$vote['VOTE']] = true;
+            } 
         }
 
         return $commentsList;

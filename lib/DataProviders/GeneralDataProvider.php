@@ -89,6 +89,19 @@ class GeneralDataProvider{
     	return $this->_voteProvider->isVoteMessageFromUser($userId, $messageId, $vote);
     }
 
+    /**
+    *	Получение списка голосов
+    */
+    public function getVote($params = []){
+    	return $this->_voteProvider->getVote($params);
+    }
+
+    /**
+    *	Получение количества голосов для каждого сообщения
+    */
+    public function getVoteCountForMessages(){
+    	return $this->_voteProvider->getVoteCountForMessages();
+    }
 }
 
 

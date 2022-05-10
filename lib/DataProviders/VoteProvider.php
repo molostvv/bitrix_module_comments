@@ -3,8 +3,27 @@ namespace Vspace\Comments\DataProviders;
 
 use Bitrix\Main\Type;
 use Vspace\Comments\Entities\VoteTable;
+use \Vspace\Comments\Enums\VoteTypes;
 
 class VoteProvider{
+
+    /**
+     * Получение списка голосов
+     * @param $params
+     * @return array
+     */
+    public function getVote($params){
+
+        $oVote = VoteTable::getList($params);
+
+        $voteList = array();
+
+        while($arVote = $oVote->fetch()){
+            $voteList[ $arVote['ID'] ] = $arVote;
+        }
+
+        return $voteList;
+    }
 
     /**
      * Добавление голоса
@@ -64,6 +83,29 @@ class VoteProvider{
 
         if($arVote = $oVote->fetch()) return $arVote["ID"];
         else return false;
+    }
+
+    /**
+     * Подсчет количества лайков и дизлайков для каждого сообщения
+     * @return array
+     */
+    public function getVoteCountForMessages(){
+        global $DB;
+
+        $likes    = 'CASE WHEN VOTE = "' . VoteTypes::LIKE['value'] . '" THEN 1 ELSE NULL END';
+        $dislikes = 'CASE WHEN VOTE = "'. VoteTypes::DISLIKE['value'] .'" THEN 1 ELSE NULL END';
+
+        $oVote = $DB->Query('SELECT COUNT(' . $likes . ') AS COUNT_LIKE, COUNT(' . $dislikes . ') AS COUNT_DISLIKE, MESSAGE_ID FROM ' . VoteTable::getTableName() . ' GROUP BY MESSAGE_ID');
+
+        $arResult = [];
+        while($arVote = $oVote->fetch()){
+            $arResult[ $arVote["MESSAGE_ID"] ] = [
+                'COUNT_LIKE'    => $arVote['COUNT_LIKE'],
+                'COUNT_DISLIKE' => $arVote['COUNT_DISLIKE']
+            ];
+        }
+
+        return $arResult;
     }
 
 }
